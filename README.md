@@ -41,41 +41,50 @@ bisogna dichiarare il tipo array per il campo e poi il tipo record:
     Ogni tipo dichiarato è visibile a tutti gli altri indipendentemente dall’ordine
     di dichiarazione. Quindi le dichiarazioni di tipo possono essere ricor-
     sive (o più in generale mutuamente ricorsive):
+    ```
     newtype tipo1 record(integer f1, tipo1 f2)
-    Ogni tipo custom t usato dentro un costruttore di tipo è da consid-
-    erarsi come un riferimento al tipo t, in maniera analoga a quello che
-    fa Java dove ogni variabile o campo di tipo oggetto è in realtà un
+    ```
+    Ogni tipo *custom* ```t``` usato dentro un costruttore di tipo è da consid-
+    erarsi come un *riferimento al tipo* ```t```, in maniera analoga a quello che
+    fa *Java* dove ogni variabile o campo di tipo oggetto è in realtà un
     riferimento.
 2. Per dichiarare una serie di nuove variabili di tipo t:
-newvars t v1,...;
-Se il tipo t dell’esempio sopra è un tipo di base allora lo spazio nec-
-essario per v1 ecc è effettivamente allocato. Se invece t è un tipo
-custom allora v1 è da considerarsi una variabile riferimento al tipo
-t in maniera simile a Java. Al contrario delle definizioni di tipo, le
-definizioni di variabili possono anche essere locali ad una funzione.
-1.4
-new e free
-Dopo che una variabile v di un tipo custom t è stata dichiarata, lo spazio
+    ```
+    newvars t v1,...;
+    ```
+    Se il tipo ```t``` dell’esempio sopra è un tipo di base allora lo spazio nec-
+    essario per ```v1``` ecc è effettivamente allocato. Se invece ```t``` è un tipo
+    custom allora ```v1``` è da considerarsi una variabile riferimento al tipo
+    ```t``` in maniera simile a *Java*. Al contrario delle definizioni di tipo, le
+    definizioni di variabili possono anche essere locali ad una funzione.
+
+## new e free
+Dopo che una variabile ```v``` di un tipo custom ```t``` è stata dichiarata, lo spazio
 necessario dovrà essere allocato esplicitamente, e successivamente deallo-
 cato:
+```
 ...
 newvars t v;
 ...
 v=new(t);
 ...
 free(v);
+```
 Stessa cosa vale per i campi di tipi custom di un record.
-1.5
-Funzioni
+
+## Funzioni
 Le funzioni vengono dichiarate nella parte apposita del file di sorgente nella
 seguente maniera:
+```
 func foo(t1 p1, t2 p2,....):t
 begin
 ......
 end
-2La funzione foo restituisce un valore di tipo t e accetta parametri p1 di tipo
-t1 ecc. Se la funzione non restituisce un valore allora t deve essere il tipo
-speciale null. La lista parametri può essere vuota.
+```
+La funzione ```foo``` restituisce un valore di tipo ```t``` e accetta parametri ```p1``` di tipo
+```t1``` ecc. Se la funzione non restituisce un valore allora ```t``` deve essere il tipo
+speciale ```null```. La lista parametri può essere vuota.
+```
 func foo():integer
 begin
 ...
@@ -84,49 +93,52 @@ func foo(integer i):null
 begin
 ...
 end
+```
 Le dichiarazioni di variabili locali devono apparire tutte insieme e subito
-dopo il begin. Se la funzione ha un tipo di restituzione diverso da null
-allora nel corpo deve esserci almeno un return e dove e dev’essere del tipo
+dopo il ```begin```. Se la funzione ha un tipo di restituzione diverso da ```null```
+allora nel corpo deve esserci almeno un ```return``` e dove e dev’essere del tipo
 appropriato.
 Ogni funzione dichiarata è visibile a tutte le altre indipendentemente
 dall’ordine di dichiarazione. Quindi le funzioni possono essere ricorsive (o più
-in generale mutuamente ricorsive): L’invocazione di una funzione è l’usuale
-foo(e1,e2,...).
-Per la funzione start si applica la stessa sintassi:
+in generale mutuamente ricorsive): l’invocazione di una funzione è l’usuale
+```foo(e1,e2,...)```.
+Per la funzione ```start``` si applica la stessa sintassi:
+```
 func start(t1 p1, t2 p2...):t
 begin
 ...
 end
-Esistono due vincoli extra per start:
+```
+Esistono due vincoli extra per ```start```:
 1. i tipi dei parametri possono essere solo tipi base, dato che sono passati
 all’eseguibile dalla linea di comando
 2. il tipo di restituzione può essere solo null o integer.
-1.6
-Identificatori
+
+## Identificatori
 Gli identificatori, siano essi nomi di variabili, di tipi custom o di funzioni,
 hanno la seguente definizione: sequenze di caratteri che possono essere let-
-tere maiuscole o minuscole, cifre o underscore e il cui primo simbolo è
+tere maiuscole o minuscole, cifre o underscore _ e il cui primo simbolo è
 sempre una lettera.
-1.7
-Assegnamento
+
+## Assegnamento
 L’operatore di assegnamento è =. Al contrario del C, non può apparire
 dentro espressioni. Analogamente a Java, l’assegnamento causa aliasing per
-3i tipi custom. Ovvero se x,y sono di tipo custom t allora x=y non ”copia”
-i dati riferiti da y ma assegna ad x solamente il riferimento a tali dati.
-1.8
-Espressioni numeriche
-Soliti operatori normali +,-,*,/ (il - è anche unario). Ovviamente variabili e
+3i tipi custom. Ovvero se ```x,y``` sono di tipo custom ```t``` allora ```x=y``` non *”copia”*
+i dati riferiti da ```y``` ma assegna ad ```x``` solamente il riferimento a tali dati.
+
+## Espressioni numeriche
+Soliti operatori normali +,-,\*,/ (il - è anche unario). Ovviamente variabili e
 chiamate di funzione possono apparire all’interno di espressioni. Conversioni
-fra floating e integer non sono mai fatte implicitamente dal compilatore.
-L’unica conversione possibile è da integer a floating e deve essere fatta es-
-plicitamente dall’utente chiamando floating(e1) dove e1 è un’espressione
+fra ```floating``` e ```integer``` *non sono mai fatte implicitamente dal compilatore*.
+L’unica conversione possibile è da integer a floating e deve essere fatta *esplicitamente*
+dall’utente chiamando ```floating(e1)``` dove ```e1``` è un’espressione
 di tipo intero.
-1.9
-Espressioni booleane
-Soliti operatori relazionali fra interi e floating: <,>,<=,>=,==,!=. Anche
-per queste espressioni vale la regola per le conversioni da interi a floating
+
+## Espressioni booleane
+Soliti operatori relazionali fra ```interi``` e ```floating```: <,>,<=,>=,==,!=. Anche
+per queste espressioni vale la regola per le conversioni da ```interi``` a ```floating```
 vista sopra. Soliti operatori booleani: ||,&&,!. Le predecenze sono le stesse
-del C.
+del **C**.
 1.10
 Blocchi
 Come anticipato per la definizione di funzioni, i delimitatori di blocco sono
