@@ -139,30 +139,32 @@ Soliti operatori relazionali fra ```interi``` e ```floating```: <,>,<=,>=,==,!=.
 per queste espressioni vale la regola per le conversioni da ```interi``` a ```floating```
 vista sopra. Soliti operatori booleani: ||,&&,!. Le predecenze sono le stesse
 del **C**.
-1.10
-Blocchi
+
+## Blocchi
 Come anticipato per la definizione di funzioni, i delimitatori di blocco sono
 begin e end e ovviamente si applicano anche a tutti gli statement di controllo
-di flusso. A parte l’eccezione delle variabili locali di una funzione, non è
-possibile dichiarare variabili locali ad un blocco e quindi i blocchi non possono
-apparire da soli (sarebbero inutili) ma solo ”agganciati” a dichiarazioni di
+di flusso. A parte l’eccezione delle variabili locali di una funzione, *non è
+possibile dichiarare variabili locali ad un blocco* e quindi i blocchi non possono
+apparire da soli (sarebbero inutili) ma solo *”agganciati”* a dichiarazioni di
 funzioni e statement di controllo di flusso.
-1.11
-Accesso array e record
-Esempio di accesso ad array multidimensionale: A[i1,i2,i3]. Esempio di
-accesso al campo c1 di un record: R.c1.
-1.12
-Loop
+
+## Accesso array e record
+Esempio di accesso ad array multidimensionale: ```A[i1,i2,i3]```. Esempio di
+accesso al campo ```c1``` di un record: ```R.c1```.
+
+## Loop
 Esiste solo il loop generico (niente ciclo for):
+```
 loop(B)
 begin
 ...
 end
-dove B è un espressione booleana. Begin e end sono obbligatori anche se il
-corpo è un solo statement. Begin e end possono stare anche sulla stessa riga
+```
+dove ```B``` è un espressione booleana. ```Begin``` e ```end``` sono obbligatori anche se il
+corpo è un solo statement. ```Begin``` e ```end``` possono stare anche sulla stessa riga
 del loop.
-41.13
-If-then-else
+
+## If-then-else
 Il ramo else è opzionale:
 if(B)
 then
@@ -173,22 +175,23 @@ else
 begin
 ...
 end
-Begin e end sono obbligatori anche se i corpi sono un solo statement. Then,
+Begin e end sono **obbligatori** anche se i corpi sono un solo statement. Then,
 else e i rispettivi begin e end possono stare anche sulla stessa riga dell’if.
-1.14
-Terminazione
-Alla fine di qualsiasi statement che non sia un loop o un if-then-else ci deve
+
+## Terminazione
+Alla fine di qualsiasi statement che non sia un *loop* o un *if-then-else* ci deve
 essere un ; di terminazione. Stessa cosa vale per le dichiarazioni di variabili
 e di tipi (ma ovviamene non per le dichiarazioni di funzioni, che hanno il
 blocco begin-end).
-1.15
-Operatore di assegnamento lazy
-L’operatore di assegnamento lazy ?= viene applicato come l’assegnamento
-normale ad una qualsiasi espressione: v?=e. Con il normale assegnamento
-v=e l’espressione e verrebbe valutata subito ed il suo valore verrebbe asseg-
-nato a v. Nel caso lazy v?=e la valutazione non viene effettuata subito ma
-viene rimandata al momento in cui v verrà effettivamente utilizzata. Ad
+
+## Operatore di assegnamento lazy
+L’operatore di assegnamento lazy ```?=``` viene applicato come l’assegnamento
+normale ad una qualsiasi espressione: ```v?=e```. Con il normale assegnamento
+```v=e``` l’espressione ```e``` verrebbe valutata subito ed il suo valore verrebbe asseg-
+nato a ```v```. Nel caso lazy ```v?=e``` la valutazione non viene effettuata subito ma
+viene rimandata al momento in cui ```v``` verrà effettivamente utilizzata. Ad
 esempio
+```
 ...
 v?=i+j*fib(g);
 ...
@@ -197,34 +200,35 @@ then
 begin
 c=v+1
 end
-In questo caso l’espressione i+j*fib(g) (dove fib è la funzione di fibonacci
-ad esempio) non viene valutata al momento dell’assegnamento lazy a v.
+```
+In questo caso l’espressione ```i+j\*fib(g)``` (dove ```fib``` è la funzione di fibonacci
+ad esempio) non viene valutata al momento dell’assegnamento lazy a ```v```.
 Invece verrà valutata se e quando nel seguito del codice verrà fatto effetti-
-vamente uso della variabile v ovvero, in questo esempio, solo se nell’if alla
-5fine il ramo then verrà eseguito. Nel caso in cui v venga usato e quindi
+vamente uso della variabile ```v``` ovvero, in questo esempio, solo se nell’```if``` alla
+fine il ramo ```then``` verrà eseguito. Nel caso in cui ```v``` venga usato e quindi
 l’espressione venga valutata, i valori delle variabili contenuti nell’espressione
 dovranno essere quelli presenti al momento dell’assegnamento lazy e non i
-valori presenti al momento dell’effettivo uso di v. Quindi, in questo esem-
-pio, quando v viene usata nel ramo then, per valutare i+j*fib(g); i valori
-delle variabili i,j,g devono essere quelli presenti al momento dell’istruzione
-v?=i+j*fib(g);.
-1.16
-Input/output
-Le funzioni di input/output sono di ”comodo” e sono esattamente la printf
-e la scanf del C. Hanno esattamente la stessa sintassi che non deve essere
-parsata del compilatore del LS. Queste due funzioni devono essere solamente
-”tradotte” direttamente in C. Gli unici controlli che devono essere fatti dal
+valori presenti al momento dell’effettivo uso di ```v```. Quindi, in questo esem-
+pio, quando ```v``` viene usata nel ramo ```then```, per valutare ```i+j*fib(g);``` i valori
+delle variabili ```i,j,g``` devono essere quelli presenti al momento dell’istruzione
+```v?=i+j*fib(g);```.
+
+## Input/output
+Le funzioni di input/output sono di ”comodo” e sono esattamente la ```printf```
+e la ```scanf``` del **C**. Hanno esattamente la stessa sintassi che non viene
+parsata del compilatore **LS**. Queste due funzioni vengono solamente
+”tradotte” direttamente in C. Gli unici controlli che vengono fatti dal
 compilatore del LS sono i seguenti:
 1. che il primo parametro di printf/scanf sia di tipo string
 2. che i successivi parametri non contengano errori relativi al linguag-
 gio LS ovvero che siano espressioni corrette sia sintatticamente che
 semanticamente.
-2
-Linguaggio Destinazione
+
+## Linguaggio Destinazione
 Il linguaggio destinazione è il C, completo e senza limitazioni.
-3
-Note
-1. Il compilatore LS deve effettuare tutti i controlli sintattici (a parte
+
+## Note
+1. Il compilatore LS effettua tutti i controlli sintattici (a parte
 quelli relativi a printf/scanf). Ovvero il compilatore C a cui verrà poi
 passato il codice risultato della compilazione non dovà dare errori di
 sintassi (a parte eventuali errori di sintassi relativi a printf/scanf).
@@ -232,4 +236,3 @@ sintassi (a parte eventuali errori di sintassi relativi a printf/scanf).
 controlli di tipo; controlli che variabili, tipi custom e funzioni usate
 siano state dichiarate; controlli sulle invocazioni delle funzioni (numero
 e tipi di parametri); ecc.
-6
